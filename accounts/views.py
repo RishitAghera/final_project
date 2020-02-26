@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from accounts.models import Services
+from .models import Services,Gym
 
 # Create your views here.
 from django.views import View
 
-from accounts.forms import RegistrationForm, LoginForm, GymRegistrationForm
+from .forms import RegistrationForm, LoginForm, GymRegistrationForm
 
 
 def index(request):
@@ -52,15 +52,19 @@ class GymRegistration(View):
         return render(request, 'accounts/gymregistration.html', {'form': form})
 
     def post(self, request):
-        form = GymRegistrationForm(request.POST)
+
+        form = GymRegistrationForm(request.POST,request.FILES)
         data = request.POST.copy()
         print(data)
-        service=[]
-        [service.append(Services.objects.all().get(id=int(i))) for i in data['services']]
-        print(service)
+        print(request.FILES.get('image'))
 
         if form.is_valid():
-            print('is valid')
-            form.save()
+            new_gym=form.save()
+            choices=Services.objects.filter(id__in=data.getlist('services'))
+            new_gym.services.set(choices)
+            new_gym.save()
+            print('GYM CREATED')
+        else:
+            print(form.errors)
         return redirect('index')
 
