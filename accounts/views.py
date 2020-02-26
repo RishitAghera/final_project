@@ -54,13 +54,18 @@ class GymRegistration(View):
     def post(self, request):
         form = GymRegistrationForm(request.POST)
         data = request.POST.copy()
-        print(data)
-        service=[]
-        [service.append(Services.objects.all().get(id=int(i))) for i in data['services']]
-        print(service)
-
+        print(request.FILES.get('image'))
+        # service=[Services.objects.all().get(pk=i) for i in data.getlist('services')]
+        #
+        # print(service)
         if form.is_valid():
-            print('is valid')
-            form.save()
+            print('form is valid')
+            new_gym=form.save(commit=False)
+            img=request.FILES.get('image')
+            new_gym.set_image(img)
+            new_gym.save()
+            print('GYM CREATED')
+        else:
+            print(form.errors)
         return redirect('index')
 
