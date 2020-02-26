@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from accounts.models import *
+from .models import *
 
 TIMESLOTE=(
     (0,'-----'),
@@ -30,4 +30,4 @@ class GymRegistrationForm(forms.ModelForm):
     # image=forms.ImageField(label='choose your image',)
     class Meta:
         model=Gym
-        fields=['name','opentime','closetime','address','city','image']
+        fields=['name','opentime','closetime','address','city','image','services']
