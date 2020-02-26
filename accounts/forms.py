@@ -27,7 +27,7 @@ class LoginForm(forms.Form):
 
 class GymRegistrationForm(forms.ModelForm):
 
-
+    # image=forms.ImageField(label='choose your image',)
     class Meta:
         model=Gym
-        fields='__all__'
+        fields=['name','opentime','closetime','address','city','image']
