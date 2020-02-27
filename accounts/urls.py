@@ -1,9 +1,5 @@
 from django.urls import path
 from . import views
-<<<<<<< HEAD
-from .views import index,card
-=======
->>>>>>> 6e441c0d8c4a5ab4aa90948d034f0b77bf80d442
 
 
 app_name='accounts'
