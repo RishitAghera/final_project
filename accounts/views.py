@@ -26,7 +26,7 @@ class RegistrationView(View):
         rform = RegistrationForm(request.POST)
         if rform.is_valid():
             rform.save()
-        return redirect('index')
+        return redirect('accounts:index')
 
 class LoginView(View):
 
@@ -38,17 +38,16 @@ class LoginView(View):
     def post(self, request):
         form1 = LoginForm(data=request.POST)
         if form1.is_valid():
-            print('isvalid')
             username = form1.cleaned_data.get('username')
             password = form1.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('index')
-            else:
-                messages.error(request, 'User Not Found please Enter Valid data' + str(form1.errors))
-        return render(request, 'accounts/login.html', {'form': form1})
-
+                print('isvalid')
+                return redirect('accounts:index')
+        else:
+            lform = LoginForm()
+            return render(request, 'accounts/login.html', {'form': lform})
 
 class GymRegistration(View):
 
@@ -60,16 +59,27 @@ class GymRegistration(View):
 
         form = GymRegistrationForm(request.POST,request.FILES)
         data = request.POST.copy()
-        print(data)
-        print(request.FILES.get('image'))
 
         if form.is_valid():
-            new_gym=form.save()
-            choices=Services.objects.filter(id__in=data.getlist('services'))
+
+            new_gym = form.save()
+            choices = Services.objects.filter(id__in=data.getlist('services'))
             new_gym.services.set(choices)
+            if new_gym.services.count() == 1:
+                new_gym.category = 'Bronze'
+            elif new_gym.services.count() == 2:
+                new_gym.category = 'Silver'
+            elif new_gym.services.count() >= 3:
+                new_gym.category = 'Gold'
+            else:
+                new_gym.category = ''
             new_gym.save()
-            print('GYM CREATED')
+            print('GYM CREATED',new_gym.services.count())
+
+
+
         else:
             print(form.errors)
-        return redirect('index')
+        return redirect('accounts:index')
+
 

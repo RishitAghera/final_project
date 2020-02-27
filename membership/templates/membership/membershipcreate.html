@@ -1,0 +1,31 @@
+{% extends 'accounts/index.html'%}
+{% block section1 %}<center>
+<div class="container" id="form_registration" style="margin-top: 5%;">
+	<h1><i><b>SELECT YOUR <span style="color:#FCD307;">SUBSCRIPTION</span> PACK</b></i></h1>
+	<table class="table tale-hover" style="width:40%; margin-top: 5%;">
+    <form method="POST" id="registration">
+			{% csrf_token %}
+
+			{% for field in form %}
+				<tr>
+					<td>
+						{{ field.label}}
+					</td>
+					<td>
+						{{ field }}
+					</td>
+					<td>
+						{{ field.errors }}
+					</td>
+				</tr>
+			{% endfor %}
+			<tr><td></td>
+				<td rowspan="3">
+					<button type="submit" id="id_button" class="btn btn-primary p-3" border="10px">Register</button>
+				</td>
+			</tr>
+
+		</form>
+		</table>
+</div></center>
+{% endblock section1 %}

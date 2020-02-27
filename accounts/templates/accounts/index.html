@@ -62,16 +62,16 @@
     </div>
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="{% url 'index' %}"><span><img src="{% static 'images/intro.gif' %}" width=150/ style="background: transparent;"/span></a>
+	      <a class="navbar-brand" href="{% url 'accounts:index' %}"><span><img src="{% static 'images/intro.gif' %}" width=150/ style="background: transparent;"/span></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto" >
-	        	<li class="nav-item active"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
-	        	<li class="nav-item"><a href="{% url 'login'%}" class="nav-link">Login</a></li>
-				<li class="nav-item"><a href="{% url 'gym-reg' %}" class="nav-link">Become Partner</a></li>
+	        	<li class="nav-item active"><a href="{% url 'accounts:index' %}" class="nav-link">Home</a></li>
+	        	<li class="nav-item"><a href="{% url 'accounts:login'%}" class="nav-link">Login</a></li>
+				<li class="nav-item"><a href="{% url 'accounts:gym-reg' %}" class="nav-link">Become Partner</a></li>
 				<li class="nav-item"><a href="{% url 'gymcard:card' %}" class="nav-link">Blog</a></li>
 				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
 				<li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
@@ -112,13 +112,8 @@
       </div>
     </section>
 
-	
 	{% block section1 %}
-	
-		
     <section class="ftco-section ftco-about">
-		
-
     	<div class="container">
     		<div class="row">
     			<div class="col-md-6">
@@ -142,7 +137,7 @@
 		            <h2 class="mb-1">Welcome to <span>Endurance</span> Crossfit Gym</h2>
 		          </div>
 		          <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-		          <p><a href="{% url 'register' %}" class="btn btn-primary p-3">Join us</a></p>
+		          <p><a href="{% url 'accounts:register' %}" class="btn btn-primary p-3">Join us</a></p>
 	          </div>{% endblock account_form %}
     			</div>
     		</div>
@@ -151,9 +146,8 @@
 		</div>
 
     </section>
-
-	
 	{% endblock section1 %}
+
     <section class="ftco-section bg-light">
     	<div class="container">
     		<div class="row justify-content-center">
@@ -304,10 +298,10 @@
 	        <div class="col-md-4 ftco-animate">
 	          <div class="block-7">
 	            <div class="text-center">
-	            <h2 class="heading">One Day Training</h2>
-	            <span class="price"><sup>$</sup> <span class="number">7</span></span>
+	            <h2 class="heading">Fewer Facilities</h2>
+	            <span class="price"><sup>&#8377</sup> <span class="number">7000</span></span>
 	            <span class="excerpt d-block">100% free. Forever</span>
-	            <a href="#" class="btn btn-primary d-block px-2 py-4 mb-4">Get Started</a>
+					<a href="{% url 'membership:mem-create' %}" class="btn btn-primary d-block px-2 py-4 mb-4"><b><i>Bronze Card</i></b></a>
 
 	            <h3 class="heading-2 mb-4">Enjoy All The Features</h3>
 
@@ -323,10 +317,10 @@
 	        <div class="col-md-4 ftco-animate">
 	          <div class="block-7">
 	            <div class="text-center">
-	            <h2 class="heading">Pay Every Month</h2>
-	            <span class="price"><sup>$</sup> <span class="number">65</span></span>
+	            <h2 class="heading">more facilities</h2>
+	            <span class="price"><sup>&#8377</sup> <span class="number">9500</span></span>
 	            <span class="excerpt d-block">All features are included</span>
-	            <a href="#" class="btn btn-primary d-block px-3 py-4 mb-4">Get Started</a>
+	            <a href="#" class="btn btn-primary d-block px-3 py-4 mb-4"><b><i>Silver Card</i></b></a>
 
 	            <h3 class="heading-2 mb-4">Enjoy All The Features</h3>
 
@@ -342,10 +336,10 @@
 	        <div class="col-md-4 ftco-animate">
 	          <div class="block-7">
 	            <div class="text-center">
-	            <h2 class="heading">1 Year Membership</h2>
-	            <span class="price"><sup>$</sup> <span class="number">125</span></span>
+	            <h2 class="heading">Enjoy All Facilities</h2>
+	            <span class="price"><sup>&#8377;</sup> <span class="number">12000</span></span>
 	            <span class="excerpt d-block">All features are included</span>
-	            <a href="#" class="btn btn-primary d-block px-3 py-4 mb-4">Get Started</a>
+	            <a href="#" class="btn btn-primary d-block px-3 py-4 mb-4">Platinum Card</a>
 
 	            <h3 class="heading-2 mb-4">Enjoy All The Features</h3>
 
