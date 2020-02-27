@@ -29,6 +29,6 @@ class Gym(models.Model):
     address = models.TextField(max_length=100,blank=True)
     services = models.ManyToManyField(Services)
     image=models.ImageField(default='default.jpg',upload_to='gym_image')
-
+    
     def __str__(self):
         return str(self.name)+' '+str(self.city)

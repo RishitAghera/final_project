@@ -12,6 +12,11 @@ from .forms import RegistrationForm, LoginForm, GymRegistrationForm
 def index(request):
     return render(request,"accounts/index.html")
 
+
+def card(request):
+    return render(request,"accounts/card.html")
+
+
 class RegistrationView(View):
     def get(self, request):
         rform = RegistrationForm()
