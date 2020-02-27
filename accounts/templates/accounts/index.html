@@ -104,13 +104,8 @@
       </div>
     </section>
 
-
+	{% block section1 %}
     <section class="ftco-section ftco-about">
-
-
-
-
-
     	<div class="container">
     		<div class="row">
     			<div class="col-md-6">
@@ -143,7 +138,7 @@
 		</div>
 
     </section>
-
+	{% endblock section1 %}
 
     <section class="ftco-section bg-light">
     	<div class="container">
@@ -298,7 +293,7 @@
 	            <h2 class="heading">Fewer Facilities</h2>
 	            <span class="price"><sup>&#8377</sup> <span class="number">7000</span></span>
 	            <span class="excerpt d-block">100% free. Forever</span>
-					<a href="{% url 'membership:subscription' %}" class="btn btn-primary d-block px-2 py-4 mb-4"><b><i>Bronze Card</i></b></a>
+					<a href="{% url 'membership:mem-create' %}" class="btn btn-primary d-block px-2 py-4 mb-4"><b><i>Bronze Card</i></b></a>
 
 	            <h3 class="heading-2 mb-4">Enjoy All The Features</h3>
 
