@@ -3,7 +3,7 @@
 <div class="container" id="form_registration">
 	<h1><i><b>Register Your Gym Here</b></i></h1>
 	<table class="table tale-hover" style="width:30%;">
-    <form method="POST" id="registration">
+    <form method="POST" id="registration" enctype="multipart/form-data">
 			{% csrf_token %}
 
 			{% for field in form %}

@@ -1,16 +1,22 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from accounts.models import Services
+from .models import Services,Gym
 
 # Create your views here.
 from django.views import View
 
-from accounts.forms import RegistrationForm, LoginForm, GymRegistrationForm
+from .forms import RegistrationForm, LoginForm, GymRegistrationForm
 
 
 def index(request):
-    return render(request,"accounts/index.html")
+    queryset=Gym.objects.all()
+    return render(request,"accounts/index.html",{'queryset':queryset})
+
+
+def card(request):
+    return render(request,"accounts/card.html")
+
 
 class RegistrationView(View):
     def get(self, request):
@@ -21,7 +27,7 @@ class RegistrationView(View):
         rform = RegistrationForm(request.POST)
         if rform.is_valid():
             rform.save()
-        return redirect('index')
+        return redirect('accounts:index')
 
 class LoginView(View):
 
@@ -33,17 +39,19 @@ class LoginView(View):
     def post(self, request):
         form1 = LoginForm(data=request.POST)
         if form1.is_valid():
-            print('isvalid')
             username = form1.cleaned_data.get('username')
             password = form1.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('index')
+                print('isvalid')
+                return redirect('accounts:index')
             else:
-                messages.error(request, 'User Not Found please Enter Valid data' + str(form1.errors))
-        return render(request, 'accounts/login.html', {'form': form1})
-
+                lform = LoginForm(data=request.POST)
+                return render(request, 'accounts/login.html', {'form': lform})
+        else:
+            lform = LoginForm()
+            return render(request, 'accounts/login.html', {'form': lform})
 
 class GymRegistration(View):
 
@@ -52,20 +60,30 @@ class GymRegistration(View):
         return render(request, 'accounts/gymregistration.html', {'form': form})
 
     def post(self, request):
-        form = GymRegistrationForm(request.POST)
+
+        form = GymRegistrationForm(request.POST,request.FILES)
         data = request.POST.copy()
-        print(request.FILES.get('image'))
-        # service=[Services.objects.all().get(pk=i) for i in data.getlist('services')]
-        #
-        # print(service)
+
         if form.is_valid():
-            print('form is valid')
-            new_gym=form.save(commit=False)
-            img=request.FILES.get('image')
-            new_gym.set_image(img)
+
+            new_gym = form.save()
+            choices = Services.objects.filter(id__in=data.getlist('services'))
+            new_gym.services.set(choices)
+            if new_gym.services.count() == 1:
+                new_gym.category = 'Bronze'
+            elif new_gym.services.count() == 2:
+                new_gym.category = 'Silver'
+            elif new_gym.services.count() >= 3:
+                new_gym.category = 'Gold'
+            else:
+                new_gym.category = ''
             new_gym.save()
-            print('GYM CREATED')
+            print('GYM CREATED',new_gym.services.count())
+
+
+
         else:
             print(form.errors)
-        return redirect('index')
+        return redirect('accounts:index')
+
 
