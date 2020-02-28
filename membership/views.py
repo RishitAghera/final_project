@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 
 from .forms import MembershipCreationForm
@@ -38,8 +39,10 @@ class MemebershipCreation(View):
             print(end_date)
             print(data.get('category'))
             new_membership=Membership.objects.create(user=self.request.user,category=data.get('category'),validity=val,start_date=start_date,end_date=end_date,auto_renew=renew)
-            return redirect('card.html')
+            url='gymcard/card/'+data.get('category')
+            print(url)
+            return redirect('gymcard:card',cat=data.get('category'))
         else:
             form = MembershipCreationForm()
-            return render(request, 'membership/membershipcreate.html', {'form': form})
+            return reverse(request, 'membership/membershipcreate.html', {'form': form})
 

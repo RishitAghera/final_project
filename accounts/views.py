@@ -10,7 +10,8 @@ from .forms import RegistrationForm, LoginForm, GymRegistrationForm
 
 
 def index(request):
-    return render(request,"accounts/index.html")
+    queryset=Gym.objects.all()
+    return render(request,"accounts/index.html",{'queryset':queryset})
 
 
 def card(request):
@@ -45,6 +46,9 @@ class LoginView(View):
                 login(request, user)
                 print('isvalid')
                 return redirect('accounts:index')
+            else:
+                lform = LoginForm(data=request.POST)
+                return render(request, 'accounts/login.html', {'form': lform})
         else:
             lform = LoginForm()
             return render(request, 'accounts/login.html', {'form': lform})

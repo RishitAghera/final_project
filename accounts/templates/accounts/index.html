@@ -61,7 +61,7 @@
 	        	<li class="nav-item active"><a href="{% url 'accounts:index' %}" class="nav-link">Home</a></li>
 	        	<li class="nav-item"><a href="{% url 'accounts:login'%}" class="nav-link">Login</a></li>
 				<li class="nav-item"><a href="{% url 'accounts:gym-reg' %}" class="nav-link">Become Partner</a></li>
-				<li class="nav-item"><a href="{% url 'gymcard:card' %}" class="nav-link">Blog</a></li>
+				<li class="nav-item"><a href="{% url 'gymcard:card' 'Gold' %}" class="nav-link">Blog</a></li>
 				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
 				<li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
 	        </ul>
@@ -136,7 +136,37 @@
 
     </section>
 	{% endblock section1 %}
+<!--ALL GYM DISPLAY-->
+{% for gym in queryset %}
 
+<a class="card" href="#!">
+
+    <div class="front" style="background-image: url({{ gym.image.url }});">
+      <p class="text">{{ gym.name }}
+      {{ gym.city }}
+      {{ gym.opentime }} To {{ gym.closetime }}</p>
+    </div>
+    <div class="back">
+      <div>
+      Address:  <p>{{ gym.address }}</p>
+      Services:
+      <p>
+
+            {% for ser in gym.services.values %}
+
+                {{ ser.service }}
+
+                {% endfor %}
+        </p>
+        <button class="button">Click Here</button>
+      </div>
+    </div>
+
+
+    {% endfor %}
+
+</a>
+<!--GYM DISPLAY END-->
     <section class="ftco-section bg-light">
     	<div class="container">
     		<div class="row justify-content-center">

@@ -1,11 +1,12 @@
+from django.conf.urls import url
 from django.urls import path
-from gymcard.views import GymListView
+from . import views
 
 app_name='gymcard'
 
 urlpatterns = [
-
-    path('card/',GymListView.as_view(),name="card"),
-    # path('register/',views.RegistrationView.as_view(),name='register'),
-    
+  # url(r'^(?P<slug>[\w-]+)/$',
+  #   url(r'^card/(?P<s>[\w-]+)/$',views.GymListView.as_view(),name="card"),
+    path('card/<str:cat>',views.GymListView,name='card'),
+    path('card/all/',views.AllGym.as_view(),name='card-all'),
 ]
