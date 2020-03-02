@@ -46,3 +46,12 @@ class MemebershipCreation(View):
             form = MembershipCreationForm()
             return reverse(request, 'membership/membershipcreate.html', {'form': form})
 
+class Qrscanning(View):
+
+    def get(self,request):
+        return render(request,'membership/qr_entry.html')
+
+    def post(self,request):
+        print(request.POST.get('qr_result'))
+        print('post called')
+        return redirect('accounts:index')
