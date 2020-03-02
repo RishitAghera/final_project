@@ -106,17 +106,18 @@ function read(a)
     var html="<br>";
     if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
         html+="<a target='_blank' href='"+a+"'>"+a+"</a><br>";
+    html+="<b>"+htmlEntities(a)+"</b><br><br>";
     html+="<b><input type='text' name='qr_result' value="+htmlEntities(a)+" id='qr_input'></label></b><br><br><input type='submit' id='qr_submit' name='qr_submit'>";
     document.getElementById("result").innerHTML=html;
-    $('#form').submit(function())
+    $('#form').submit()
     $("#form").trigger('submit');
-}	
+}
 
 function isCanvasSupported(){
   var elem = document.createElement('canvas');
   return !!(elem.getContext && elem.getContext('2d'));
 }
-function success(stream) 
+function success(stream)
 {
 
     v.srcObject = stream;
@@ -125,7 +126,7 @@ function success(stream)
     gUM=true;
     setTimeout(captureToCanvas, 500);
 }
-		
+
 function error(error)
 {
     gUM=false;
@@ -152,7 +153,7 @@ function load()
 
 function setwebcam()
 {
-	
+
 	var options = true;
 	if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices)
 	{
@@ -178,7 +179,7 @@ function setwebcam()
 		console.log("no navigator.mediaDevices.enumerateDevices" );
 		setwebcam2(options);
 	}
-	
+
 }
 
 function setwebcam2(options)
@@ -187,7 +188,7 @@ function setwebcam2(options)
 	document.getElementById("result").innerHTML="- scanning -";
     if(stype==1)
     {
-        setTimeout(captureToCanvas, 500);    
+        setTimeout(captureToCanvas, 500);
         return;
     }
     var n=navigator;
@@ -235,9 +236,8 @@ function setimg()
     document.getElementById("qrimg").style.opacity=1.0;
     document.getElementById("webcamimg").style.opacity=0.2;
     var qrfile = document.getElementById("qrfile");
-    qrfile.addEventListener("dragenter", dragenter, false);  
-    qrfile.addEventListener("dragover", dragover, false);  
+    qrfile.addEventListener("dragenter", dragenter, false);
+    qrfile.addEventListener("dragover", dragover, false);
     qrfile.addEventListener("drop", drop, false);
     stype=2;
 }
-

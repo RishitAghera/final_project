@@ -9,15 +9,7 @@
   <meta name="robots" content="index, follow"/>
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<script type="text/javascript">
-function submitform()
-{
-document.getElementById("qr_submit").click()
-alert("Value is sumitted");
-}
-</script>
-
+<title>Web QR</title>
 
 <style type="text/css">
 body{
@@ -123,8 +115,8 @@ li a{
 <script type="text/javascript" src="{% static 'js/webqr.js' %}"></script>
 
 {% endblock qr_head %}
-
 {% block section1 %}
+<body>
 <div id="main">
 <div id="header">
 <div style="position:relative;top:+20px;left:0px;"><g:plusone size="medium"></g:plusone></div>
@@ -161,15 +153,6 @@ QR Code scanner
 {% csrf_token %}
     <div id="result">
 
-</div>
-    </form>
-  <script>
-    $(document).ready(function(){
-<!--      $('#form').submit(function() {alert('hello'); return true;})-->
-<!--      $("#form").trigger('submit');-->
-<!--      $("#qr_input")-->
-    });
-</script>
 </td></tr>
 </table>
 </div>&nbsp;
