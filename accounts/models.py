@@ -22,6 +22,8 @@ class Services(models.Model):
 
 class Gym(models.Model):
 
+
+    username=models.OneToOneField(User,on_delete=models.PROTECT,unique=True,null=True)
     name = models.CharField('Name',max_length=30,blank=True)
     opentime = models.TimeField()
     closetime = models.TimeField()
@@ -30,7 +32,7 @@ class Gym(models.Model):
     services = models.ManyToManyField(Services)
     image=models.ImageField(default='default.jpg',upload_to='gym_image')
     category=models.CharField(null=True,max_length=10)
-
+    qrcode=models.ImageField(upload_to='gym_qr',null=True)
 
     def __str__(self):
         return str(self.name)+' '+str(self.city)+ ' '+str(self.category)

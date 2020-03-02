@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .models import Services,Gym
+import qrcode
+
 
 # Create your views here.
 from django.views import View
@@ -77,6 +79,13 @@ class GymRegistration(View):
                 new_gym.category = 'Gold'
             else:
                 new_gym.category = ''
+
+            qr=qrcode.make(new_gym.id)
+            qr.save('media/gym_qr/'+str(new_gym.id)+'.png')
+            print(qr)
+            new_gym.qrcode='gym_qr/'+str(new_gym.id)+'.png'
+            new_gym.username=self.request.user
+
             new_gym.save()
             print('GYM CREATED',new_gym.services.count())
 
