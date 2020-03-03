@@ -1,13 +1,15 @@
 from datetime import date, timedelta
 
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import MembershipCreationForm
 from .models import Membership
-
-
+from . import checksum
+MERCHANT_KEY='YOUR_KEY'
 def subscription(request):
 
     return render(request,"membership/subscription.html")
@@ -40,11 +42,44 @@ class MemebershipCreation(View):
             print(data.get('category'))
             new_membership=Membership.objects.create(user=self.request.user,category=data.get('category'),validity=val,start_date=start_date,end_date=end_date,auto_renew=renew)
             url='gymcard/card/'+data.get('category')
-            print(url)
-            return redirect('gymcard:card',cat=data.get('category'))
+            print(str(new_membership.id))
+            print(str(self.request.user.email))
+            # return redirect('gymcard:card',cat=data.get('category'))
+            param_dict={
+                "MID": "YOUR_MID",
+                "ORDER_ID": str(new_membership.id),
+                "CUST_ID": str(self.request.user.email),
+                "TXN_AMOUNT": "1",
+                "CHANNEL_ID": "WEB",
+                "INDUSTRY_TYPE_ID": "Retail",
+                "WEBSITE": "WEBSTAGING",
+                "CALLBACK_URL":"http://127.0.0.1:8000/membership/handlerequest/",
+                # "cat":data.get('category'),
+            }
+            param_dict["CHECKSUMHASH"]=checksum.generate_checksum(param_dict, MERCHANT_KEY)
+            return render(request,'membership/paytm.html',{'param_dict':param_dict})
         else:
             form = MembershipCreationForm()
             return reverse(request, 'membership/membershipcreate.html', {'form': form})
+@csrf_exempt
+def handlerequest(request):
+    # paytm will send you post request here
+    form = request.POST
+    response_dict = {}
+    for i in form.keys():
+        response_dict[i] = form[i]
+        if i == 'CHECKSUMHASH':
+            check_sum = form[i]
+
+    verify = checksum.verify_checksum(response_dict, MERCHANT_KEY, check_sum)
+    if verify:
+        if response_dict['RESPCODE'] == '01':
+            print('Payment successful')
+        else:
+            print('Payment was not successful because' + response_dict['RESPMSG'])
+            Membership.objects.get(id=response_dict['ORDERID']).delete()
+    return render(request, 'membership/paymentstatus.html', {'response': response_dict})
+
 
 class Qrscanning(View):
 

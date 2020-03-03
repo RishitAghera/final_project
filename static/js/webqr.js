@@ -107,10 +107,10 @@ function read(a)
     if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
         html+="<a target='_blank' href='"+a+"'>"+a+"</a><br>";
     html+="<b>"+htmlEntities(a)+"</b><br><br>";
-    html+="<b><input type='text' name='qr_result' value="+htmlEntities(a)+" id='qr_input'></label></b><br><br><input type='submit' id='qr_submit' name='qr_submit'>";
+    html+="<b><h1><input type='hidden' name='qr_result' value="+htmlEntities(a)+" id='qr_input'></h1></b><br><br>";
     document.getElementById("result").innerHTML=html;
-    $('#form').submit()
-    $("#form").trigger('submit');
+//    $('#form').submit()
+//    $("#form").trigger('submit');
 }
 
 function isCanvasSupported(){
