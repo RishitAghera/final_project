@@ -44,12 +44,16 @@ class MemebershipCreation(View):
             url='gymcard/card/'+data.get('category')
             print(str(new_membership.id))
             print(str(self.request.user.email))
+            price={'Bronze':{3:2000,6:3500,12:5000},
+                   'Silver':{3:3000,6:5500,12:8000},
+                   'Gold':{3:4000,6:7000,12:10000}}
+            print(str(price[data.get('category')][val]))
             # return redirect('gymcard:card',cat=data.get('category'))
             param_dict={
                 "MID": "YOUR_MID",
                 "ORDER_ID": str(new_membership.id),
                 "CUST_ID": str(self.request.user.email),
-                "TXN_AMOUNT": "1",
+                "TXN_AMOUNT": str(price[data.get('category')][val]),
                 "CHANNEL_ID": "WEB",
                 "INDUSTRY_TYPE_ID": "Retail",
                 "WEBSITE": "WEBSTAGING",
