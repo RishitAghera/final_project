@@ -18,6 +18,7 @@ alert("Value is sumitted");
 }
 </script>
 
+
 <style type="text/css">
 body{
     width:100%;
@@ -156,16 +157,19 @@ QR Code scanner
 </td></tr>
 <tr><td colspan="3" align="center">
 
-  <form method="post">
+  <form method="post" id="form">
 {% csrf_token %}
     <div id="result">
 
 </div>
     </form>
   <script>
-
-
-  </script>
+    $(document).ready(function(){
+<!--      $('#form').submit(function() {alert('hello'); return true;})-->
+<!--      $("#form").trigger('submit');-->
+<!--      $("#qr_input")-->
+    });
+</script>
 </td></tr>
 </table>
 </div>&nbsp;
