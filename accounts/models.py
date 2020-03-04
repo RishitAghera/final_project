@@ -23,7 +23,7 @@ class Services(models.Model):
 class Gym(models.Model):
 
 
-    username=models.OneToOneField(User,on_delete=models.PROTECT,unique=True,null=True)
+    user=models.OneToOneField(User,on_delete=models.PROTECT,unique=True,null=True)
     name = models.CharField('Name',max_length=30,blank=True)
     opentime = models.TimeField()
     closetime = models.TimeField()

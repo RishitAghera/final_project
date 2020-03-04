@@ -1,6 +1,9 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import render, redirect
+from django.views.generic import DetailView
+from django.views.generic import View
+
 from .models import Services,Gym
 import qrcode
 
@@ -18,6 +21,11 @@ def index(request):
 
 def card(request):
     return render(request,"accounts/card.html")
+
+class LogoutView(View):
+    def get(self,request):
+        logout(request)
+        return redirect('accounts:login')
 
 
 class RegistrationView(View):
@@ -58,8 +66,11 @@ class LoginView(View):
 class GymRegistration(View):
 
     def get(self, request):
-        form = GymRegistrationForm()
-        return render(request, 'accounts/gymregistration.html', {'form': form})
+        if Gym.objects.all().filter(user=request.user):
+            return render(request, 'accounts/gymregistration.html', {'msg': 'You are Already our Gym Partner'})
+        else:
+            form = GymRegistrationForm()
+            return render(request, 'accounts/gymregistration.html', {'form': form})
 
     def post(self, request):
 

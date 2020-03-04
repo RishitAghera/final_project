@@ -9,15 +9,7 @@
   <meta name="robots" content="index, follow"/>
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<script type="text/javascript">
-function submitform()
-{
-document.getElementById("qr_submit").click()
-alert("Value is sumitted");
-}
-</script>
-
+<title>Web QR</title>
 
 <style type="text/css">
 body{
@@ -123,20 +115,14 @@ li a{
 <script type="text/javascript" src="{% static 'js/webqr.js' %}"></script>
 
 {% endblock qr_head %}
-
 {% block section1 %}
+<body>
 <div id="main">
 <div id="header">
 <div style="position:relative;top:+20px;left:0px;"><g:plusone size="medium"></g:plusone></div>
 <p id="mp1">
 QR Code scanner
 </p>
-<ul>
-<li><a href="index.html">Scan</a></li>
-<li><a href="create.html">Create</a></li>
-<li><a href="about.html">About</a></li>
-<li style="border: medium none;"><a href="contact.html">Contact</a></li>
-</ul>
 </div>
 <div id="mainbody">
 <table class="tsel" border="0" width="100%">
@@ -153,23 +139,13 @@ QR Code scanner
 </td>
 </tr>
 <tr><td colspan="3" align="center">
-<img src="down.png"/>
 </td></tr>
 <tr><td colspan="3" align="center">
 
   <form method="post" id="form">
 {% csrf_token %}
     <div id="result">
-
-</div>
-    </form>
-  <script>
-    $(document).ready(function(){
-<!--      $('#form').submit(function() {alert('hello'); return true;})-->
-<!--      $("#form").trigger('submit');-->
-<!--      $("#qr_input")-->
-    });
-</script>
+    </div></form>
 </td></tr>
 </table>
 </div>&nbsp;
