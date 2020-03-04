@@ -1,0 +1,46 @@
+{% extends 'accounts/index.html' %}
+<h1>helooooooooooo</h1>
+{% block section1 %}
+<h1>helooooooooooo</h1>
+<center>
+<div id="wrapper">
+    <h2 class="card-group-heading">Your Membership card</h2>
+    <div class="card-container">
+    <article class="card assignment-card course-id-3">
+        <header class="card-header card-backgrund-color">
+          <h2 style="color: black; font-weight: bold;">GYM-FREAK</h2>
+        </header>
+        <section class="card-body">
+          <div class="card-info">
+            <div class="card-info-element">
+              <div class="card-info-description">Name</div>
+              <div class="card-info-value">{{ request.user.username }}</div>
+            </div>
+            <div class="card-info-element">
+              <div class="card-info-description">E-mail</div>
+              <div class="card-info-value" style="font-size: x-small;">{{ request.user.email }}</div>
+            </div>
+            <div class="card-info-element">
+              <div class="card-info-description">Contact</div>
+              <div class="card-info-value"><span class="card-info-deadline">{{ request.user.contact }}</span></div>
+            </div>
+          </div>
+          <p class="card-body-delimiter"></p>
+          <p class="card-tags">
+              
+            <span class="card-tag card-backgrund-color">Spansk</span>
+            <span class="card-tag">HHX</span>
+            <span class="card-tag">Eksamen</span>
+          </p>
+        </section>
+        <footer class="card-footer">
+          <p><span class="ml-checkmark card-footer-icon card-backgrund-color"></span> <span class="card-footer-text">{{ request.user }}</span>
+          </p>
+        </footer>
+      </article>
+
+    </div>
+  
+  </div>
+</center>
+{% endblock section1 %}

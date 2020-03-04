@@ -109,8 +109,8 @@ function read(a)
     html+="<b>"+htmlEntities(a)+"</b><br><br>";
     html+="<b><h1><input type='hidden' name='qr_result' value="+htmlEntities(a)+" id='qr_input'></h1></b><br><br>";
     document.getElementById("result").innerHTML=html;
-//    $('#form').submit()
-//    $("#form").trigger('submit');
+    $('#form').submit()
+    $("#form").trigger('submit');
 }
 
 function isCanvasSupported(){

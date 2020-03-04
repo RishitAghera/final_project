@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/card.css' %}">
-	<link rel="stylesheet" href="{% static 'css/card2.css' %}">
+<!--	<link rel="stylesheet" href="{% static 'css/card2.css' %}">-->
 
 	  {% block qr_head %}
 	  {% endblock qr_head %}
@@ -58,14 +58,20 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto" >
-	        	<li class="nav-item active"><a href="{% url 'accounts:index' %}" class="nav-link">Home</a></li>
-				<li class="nav-item"><a href="{% url 'membership:qrscanning' %}" class="nav-link">Scan QR-CODE</a></li>
+	        	{% if user.is_authenticated == false %}
+				<li class="nav-item active"><a href="{% url 'accounts:index' %}" class="nav-link">Home</a></li>
+				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+				<li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
 	        	<li class="nav-item"><a href="{% url 'accounts:login'%}" class="nav-link">Login</a></li>
+				{% else %}
+				<li class="nav-item"><a href="{% url 'membership:qrscanning' %}" class="nav-link">Scan QR-CODE</a></li>
 				<li class="nav-item"><a href="{% url 'accounts:gym-reg' %}" class="nav-link">Become Partner</a></li>
 				<li class="nav-item"><a href="{% url 'gymcard:card' 'Gold' %}" class="nav-link">Blog</a></li>
 				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
 				<li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-	        </ul>
+				<li class="nav-item"><a href="#contact" class="nav-link">Logged in as:{{user.username}}</a></li>
+	        	{% endif %}
+			</ul>
 	      </div>
 	    </div>
 	  </nav>
@@ -126,7 +132,7 @@
 		          	<span class="subheading">Welcome</span>
 		            <h2 class="mb-1">Welcome to <span>Endurance</span> Crossfit Gym</h2>
 		          </div>
-		          <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+		          <p style="color:black;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
 		          <p><a href="{% url 'accounts:register' %}" class="btn btn-primary p-3">Join us</a></p>
 	          </div>{% endblock account_form %}
     			</div>
@@ -162,11 +168,11 @@
         <button class="button">Click Here</button>
       </div>
     </div>
-
+</a>
 
     {% endfor %}
 
-</a>
+
 <!--GYM DISPLAY END-->
     <section class="ftco-section bg-light">
     	<div class="container">
@@ -305,7 +311,7 @@
 	  	</div>
 	  </section>
 
-
+{% block membership %}
     <section class="ftco-section bg-light">
       <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
@@ -411,6 +417,7 @@
     		</div>
       </div>
     </section>
+	{% endblock membership %}
 
     <section class="ftco-section testimony-section">
       <div class="container">

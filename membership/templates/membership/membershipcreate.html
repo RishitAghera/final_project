@@ -5,7 +5,9 @@
 	<table class="table tale-hover" style="width:40%; margin-top: 5%;">
     <form method="POST" id="registration">
 			{% csrf_token %}
-
+		{% if message %}
+		{{ message }}
+		{% endif %}
 			{% for field in form %}
 				<tr>
 					<td>

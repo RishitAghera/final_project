@@ -1,15 +1,17 @@
-from datetime import date, timedelta
-
-from django.http import HttpResponse
+from datetime import date, timedelta, datetime
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import MembershipCreationForm
-from .models import Membership
+from .models import Membership, Entry
 from . import checksum
-MERCHANT_KEY='YOUR_KEY'
+from accounts.models import Gym
+
+MERCHANT_KEY='#bhpBMZ_@X9U4JKL'
+
+
 def subscription(request):
 
     return render(request,"membership/subscription.html")
@@ -40,8 +42,12 @@ class MemebershipCreation(View):
             print(start_date)
             print(end_date)
             print(data.get('category'))
-            new_membership=Membership.objects.create(user=self.request.user,category=data.get('category'),validity=val,start_date=start_date,end_date=end_date,auto_renew=renew)
-            url='gymcard/card/'+data.get('category')
+            try:
+                new_membership=Membership.objects.create(user=self.request.user,category=data.get('category'),validity=val,start_date=start_date,end_date=end_date,auto_renew=renew)
+            except:
+                form = MembershipCreationForm()
+                return render(request, 'membership/membershipcreate.html', {'form': form})
+            # url='gymcard/card/'+data.get('category')
             print(str(new_membership.id))
             print(str(self.request.user.email))
             price={'Bronze':{3:2000,6:3500,12:5000},
@@ -50,7 +56,7 @@ class MemebershipCreation(View):
             print(str(price[data.get('category')][val]))
             # return redirect('gymcard:card',cat=data.get('category'))
             param_dict={
-                "MID": "YOUR_MID",
+                "MID": "EzRoDH80963909058504",
                 "ORDER_ID": str(new_membership.id),
                 "CUST_ID": str(self.request.user.email),
                 "TXN_AMOUNT": str(price[data.get('category')][val]),
@@ -92,5 +98,15 @@ class Qrscanning(View):
 
     def post(self,request):
         print(request.POST.get('qr_result'))
-        print('post called')
-        return redirect('accounts:index')
+        print(request.user)
+        is_valid=Entry.objects.filter(user=request.user,date=datetime.now())
+        if not is_valid:
+            end=Membership.objects.get(user=request.user).end_date
+            print(end)
+            remaining=(end - datetime.now().date()).days
+            print(remaining)
+            gym_ins=Gym.objects.get(id=int(request.POST.get('qr_result')))
+            new_entry = Entry.objects.create(user=request.user, gym=gym_ins, date=datetime.now())
+            entry_msg='Entry Added..'+str(remaining)+' more days to go..'
+            return redirect('accounts:index')
+

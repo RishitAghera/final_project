@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     'accounts',
     'gymcard',
     'membership',
-    'drf_paytm',
-    'drfaddons',
 ]
 
 MIDDLEWARE = [
