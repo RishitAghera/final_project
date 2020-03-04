@@ -18,7 +18,7 @@ class AllGym(ListView):
     template_name = 'gymcard/card.html'
     context_object_name = 'queryset'
 
-def MembershipDeatilCard(request):
+def MembershipDetailCard(request):
     if not Membership.objects.all():
         return render(request,'gymcard/membership_detailcard.html')
     

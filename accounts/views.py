@@ -1,10 +1,12 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.views.generic import View
 
-from .models import Services,Gym
+from .models import Services, Gym, User
 import qrcode
 
 
@@ -64,7 +66,7 @@ class LoginView(View):
             return render(request, 'accounts/login.html', {'form': lform})
 
 class GymRegistration(View):
-
+    @method_decorator(login_required, name='dispatch')
     def get(self, request):
         if Gym.objects.all().filter(user=request.user):
             return render(request, 'accounts/gymregistration.html', {'msg': 'You are Already our Gym Partner'})
@@ -106,4 +108,12 @@ class GymRegistration(View):
             print(form.errors)
         return redirect('accounts:index')
 
+@method_decorator(login_required, name='dispatch')
+def profile(request):
+    object=User.objects.all().get(id=request.user.pk)
+    return render(request,'accounts/profile.html',{'object':object})
 
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("accounts:index")

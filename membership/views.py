@@ -1,6 +1,9 @@
 from datetime import date, timedelta, datetime
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
@@ -17,7 +20,7 @@ def subscription(request):
     return render(request,"membership/subscription.html")
 
 class MemebershipCreation(View):
-
+    @method_decorator(login_required, name='dispatch')
     def get(self,request):
         form = MembershipCreationForm()
         return render(request,'membership/membershipcreate.html',{'form':form})
@@ -92,7 +95,7 @@ def handlerequest(request):
 
 
 class Qrscanning(View):
-
+    @method_decorator(login_required, name='dispatch')
     def get(self,request):
         return render(request,'membership/qr_entry.html')
 
