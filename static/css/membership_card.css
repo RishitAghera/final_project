@@ -102,7 +102,7 @@ html {
 .card-header,
 .card-footer,
 .card-body {
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
   padding: 10px 20px;

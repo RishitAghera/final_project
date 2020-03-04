@@ -6,6 +6,8 @@
         <h2>Payment status regarding your Membership </h2>
         {% if response.RESPCODE == '01' %}
         <h2>PAYMENT SUCCESS</h2>
+
+        <a href="{% url 'gymcard:detail' %}" class="btn btn-primary p-3">Join us</a>
         {% else %}
         PAYMENT FAILURE
         {% endif%}
