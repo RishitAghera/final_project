@@ -1,9 +1,12 @@
+from datetime import datetime, timedelta
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.views.generic import View
 
 from .models import Services, Gym, User
@@ -14,6 +17,7 @@ import qrcode
 from django.views import View
 
 from .forms import RegistrationForm, LoginForm, GymRegistrationForm
+from membership.models import Entry
 
 
 def index(request):
@@ -66,6 +70,7 @@ class LoginView(View):
             return render(request, 'accounts/login.html', {'form': lform})
 
 class GymRegistration(View):
+
     @method_decorator(login_required, name='dispatch')
     def get(self, request):
         if Gym.objects.all().filter(user=request.user):
@@ -108,12 +113,37 @@ class GymRegistration(View):
             print(form.errors)
         return redirect('accounts:index')
 
-@method_decorator(login_required, name='dispatch')
+
 def profile(request):
-    object=User.objects.all().get(id=request.user.pk)
-    return render(request,'accounts/profile.html',{'object':object})
+    try:
+        object=User.objects.all().get(id=request.user.pk)
+        return render(request, 'accounts/profile.html', {'object': object})
+    except:
+        return HttpResponse("404 Error")
+
 
 class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect("accounts:index")
+
+def credit_amt(request,category,count):
+    price={'gold':22,'silver':17,'bronse':22}
+    if category=='Gold':
+        credit=count*price['gold']
+    elif category=='silver':
+        credit=count*price['silver']
+    else:
+        credit=count*price['bronse']
+    return credit
+
+
+@method_decorator(login_required, name='dispatch')
+class EntryView(ListView):
+    model=Entry
+    template_name='accounts/entrylist.html'
+
+    def get_queryset(self):
+        entry_lst=self.request.user.gym.entry_set.all().filter(date__gte=datetime.now() - timedelta(days=30))
+        credit=credit_amt(self.request.user.gym.category,entry_lst.count())
+        return {'entry_lst':entry_lst,'credit':credit}

@@ -1,10 +1,8 @@
-from datetime import date, timedelta, datetime
+from datetime import datetime
 
 from django.shortcuts import render
 from accounts.models import Gym
-from django.views import View
 from django.views.generic import ListView,DetailView
-# Create your views here.
 from membership.models import Membership
 
 
