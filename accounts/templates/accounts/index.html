@@ -32,8 +32,6 @@
     <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
     <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
-	<link rel="stylesheet" href="{% static 'css/card.css' %}">
-<!--	<link rel="stylesheet" href="{% static 'css/card2.css' %}">-->
 
 	  <!--		AUTOCOMPLETE SEARCH-->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -41,6 +39,20 @@
 <!--	  <script src="{% static 'js/autocomplete_cdn.js' %}"></script>-->
 <!--	  <script src="{% static 'js/autocomplete_cdn2.js' %}"></script>-->
 	  <script src="{% static 'js/autocomplete.js' %}"></script>
+
+	  <script type="text/javascript">
+
+
+
+$(document).ready(function () {
+    // Handler for .ready() called.
+    $('html, body').animate({
+        scrollTop: $('#section1').offset().top
+    }, 'slow');
+});
+
+</script>
+
 
 
 	  {% block qr_head %}
@@ -78,7 +90,8 @@
 				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
 				<li class="nav-item"><a href="{% url 'accounts:logout' %}" class="nav-link">Logout</a></li>
 				<li class="nav-item"><a href="{% url 'accounts:profile' %}" class="nav-link">Logged in as:{{user.username}}</a></li>
-				<li><form class="navbar-form navbar-left" action="POST" method="POST">{% csrf_token %}<input type="text" name="search" id="myInput" value="" style='width:40%'><button type="submit">search</button></form></li>
+				<li><form class="navbar-form navbar-left" method="POST" action="{% url 'gymcard:citywisegym' %}">{% csrf_token %}<input type="text" name="searchcity" id="myInput" value="" style='width:40%'>
+					<button type="submit">search</button></form></li>
 
 				{% else %}
 
@@ -122,7 +135,14 @@
         </div>
       </div>
     </section>
-<!--	section1-->
+	{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }} text-warning" ><h3>{{ message }}</h3></li>
+    {% endfor %}
+  </ul>
+{% endif %}
+<div id="section1">
 	{% block section1 %}
 
     <section class="ftco-section ftco-about">
@@ -158,38 +178,9 @@
 
     </section>
 	{% endblock section1 %}
+</div>
 
-<!--ALL GYM DISPLAY-->
-{% for gym in queryset %}
-
-<a class="card" href="#!">
-
-    <div class="front" style="background-image: url({{ gym.image.url }});">
-      <p class="text">{{ gym.name }}
-      {{ gym.city }}
-      {{ gym.opentime }} To {{ gym.closetime }}</p>
-    </div>
-    <div class="back">
-      <div>
-      Address:  <p>{{ gym.address }}</p>
-      Services:
-      <p>
-
-            {% for ser in gym.services.values %}
-
-                {{ ser.service }}
-
-                {% endfor %}
-        </p>
-        <button class="button">Click Here</button>
-      </div>
-    </div>
-</a>
-
-    {% endfor %}
-
-
-<!--GYM DISPLAY END-->
+{% block section2 %}
     <section class="ftco-section bg-light">
     	<div class="container">
     		<div class="row justify-content-center">
@@ -248,7 +239,9 @@
     		</div>
     	</div>
     </section>
+	{% endblock %}
 
+	{% block section3 %}
     <section class="ftco-section ftco-package-program bg-darken">
 	  	<div class="container-fluid px-0">
 	  		<div class="row justify-content-center mb-5 pb-3">
@@ -261,66 +254,24 @@
         <div class="row no-gutters">
         	<div class="col-md-12">
         		<div class="carousel-package-program owl-carousel">
-              <div class="item">
+
+					{% for gym in queryset %}
+
+					<div class="item">
               	<div class="package-membership ftco-animate">
-		        			<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url('{% static "images/program-1.jpg" %}');">
+		        			<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url('{{ gym.image.url }}');">
 		        				<div class="text text-center d-flex align-items-end">
 		        					<div class="desc">
-				        				<h3>Muscle Sculpe</h3>
-				        				<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+				        				<h3>{{ gym.name }}</h3>
+				        				<p>{{ gym.address }}</p>
+										<p>{{ gym.city }}</p>
 			        				</div>
 			        			</div>
 		        			</a>
 		        		</div>
               </div>
-              <div class="item">
-              	<div class="package-membership ftco-animate">
-		        			<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url('{% static "images/program-2.jpg" %}');">
-		        				<div class="text text-center d-flex align-items-end">
-		        					<div class="desc">
-				        				<h3>Fat Burn</h3>
-				        				<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-			        				</div>
-			        			</div>
-		        			</a>
-		        		</div>
-              </div>
-              <div class="item">
-              	<div class="package-membership ftco-animate">
-		        			<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url('{% static "images/program-3.jpg" %}');">
-		        				<div class="text text-center d-flex align-items-end">
-		        					<div class="desc">
-				        				<h3>Cycling</h3>
-				        				<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-			        				</div>
-			        			</div>
-		        			</a>
-		        		</div>
-              </div>
-              <div class="item">
-              	<div class="package-membership ftco-animate">
-		        			<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url('{% static "images/program-4.jpg" %}');">
-		        				<div class="text text-center d-flex align-items-end">
-		        					<div class="desc">
-				        				<h3>Pilates &amp; Stretching</h3>
-				        				<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-			        				</div>
-			        			</div>
-		        			</a>
-		        		</div>
-              </div>
-              <div class="item">
-              	<div class="package-membership ftco-animate">
-		        			<a href="#" class="img d-flex justify-content-center align-items-center" style="background-image: url('{% static "images/program-5.jpg" %}');">
-		        				<div class="text text-center d-flex align-items-end">
-		        					<div class="desc">
-				        				<h3>Boxing</h3>
-				        				<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-			        				</div>
-			        			</div>
-		        			</a>
-		        		</div>
-              </div>
+			{% endfor %}
+			{% endblock section3%}
             </div>
         	</div>
         </div>
@@ -548,44 +499,49 @@
     </section>
 
     <section class="ftco-appointment">
-			<div class="overlay"></div>
-    	<div class="container">
-    		<div class="row d-md-flex align-items-center">
-    			<div class="col-md-6 d-flex align-self-stretch img" style="background-image: url('{% static "images/person_3.jpg" %}');">
-    			</div>
-	    		<div class="col-md-6 appointment pl-md-5 py-md-5 ftco-animate">
-	    			<h3 class="mb-3">Calculate Your BMI</h3>
-	    			<form action="#" class="appointment-form">
-	    				<div class="form-group">
-	    					<label for="height">Height</label>
-	    					<div class="d-flex">
-		    					<input type="text" class="form-control mr-2" placeholder="feet">
-		    					<input type="text" class="form-control ml-2" placeholder="inches">
-	    					</div>
-	    				</div>
-	    				<div class="form-group">
-	    					<div class="d-flex">
-	    						<div class="mr-2">
-	    							<label for="height">Weight</label>
-			    					<input type="text" class="form-control" placeholder="lbs">
-			    				</div>
-		    					<div class="ml-2">
-	    							<label for="height">Age</label>
-			    					<input type="text" class="form-control" placeholder="yrs">
-			    				</div>
-	    					</div>
-	    				</div>
-	    				<div class="d-md-flex">
-		            <div class="form-group d-flex">
-		            	<input type="submit" value="Calculate" class="btn btn-secondary py-3 px-4 mr-2">
-		              <input type="submit" value="BMI" class="btn btn-primary py-3 px-4 ml-2">
-		            </div>
-	    				</div>
-	    			</form>
-	    		</div>
-    		</div>
-    	</div>
-    </section>
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row d-md-flex align-items-center">
+				<div class="col-md-6 d-flex align-self-stretch img"
+					style="background-image: url('{% static "images/bmi1.jpg" %}');">
+				</div>
+				<div class="col-md-6 appointment pl-md-5 py-md-5 ftco-animate">
+					<h3 class="mb-3">Calculate Your <span style="color:orange;"><b>BMI</b></span></h3>
+					<!-- <form action="#" method="POST" class="appointment-form">
+						{% csrf_token %} -->
+					<div class="form-group">
+						<label for="height"><b>Height</b></label>
+						<div class="d-flex">
+							<input type="text" class="form-control mr-2" id="feet" placeholder="feet">
+							<input type="text" class="form-control ml-2" id="inch" placeholder="inches">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="d-flex">
+							<div class="mr-2">
+								<label for="height"><b>Weight</b></label>
+								<input type="text" class="form-control" id="weight" placeholder="Kg">
+							</div>
+							<div class="ml-2">
+								<label for="height"><b>Age</b></label>
+								<input type="text" class="form-control" placeholder="yrs">
+							</div>
+						</div>
+					</div>
+					<div class="d-md-flex">
+						<div class="form-group d-flex">
+							<input type="submit" value="Calculate BMI" class="btn btn-secondary p-3 px-2"
+								onclick="calculateBMI();">
+
+						</div>
+
+					</div>
+					<h4 class="mb-3">Your BMI Is <span id="calculate" style="color:orange;"><b><u></u></b></span> and
+						you are <span id="bmi" style="color:orange;"><b></b></span> </h4>
+					</div>
+			</div>
+		</div>
+	</section>
 
     <section class="ftco-section bg-light">
       <div class="container">
@@ -789,8 +745,6 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="{% static 'js/google-map.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
-  <script src="{% static 'js/card.js' %}"></script>
-  <script src="{% static 'js/card2.js' %}"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='https://cdn.rawgit.com/thiagoh/de-animate/0.2.3/dist/jquery.de-animate.min.js'></script>
 <script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
@@ -799,9 +753,34 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
+<!--	BMI-->
+<script type="text/javascript">
+	function calculateBMI() {
+			var feet = Number(document.getElementById("feet").value);
+			var inch = Number(document.getElementById("inch").value);
+			var weight = Number(document.getElementById("weight").value);
+			var heights = ((feet  12 + inch)  2.54) / 100;
+			var calculate = (weight / (heights * heights));
+			document.getElementById("calculate").innerText = calculate;
+			if (calculate < 18.5) {
+				document.getElementById("bmi").innerText = "Underweight";
+			}
+			else if (calculate > 18.5 && calculate < 24.9) {
+				document.getElementById("bmi").innerHTML = "Normal Weight HEALTHY";
+			}
+			else if (calculate > 25 && calculate < 29.9){
+				document.getElementById("bmi").innerHTML = "Overweight";
+			}
+			else if(calculate>30){
+				document.getElementById("bmi").innerHTML = "Obese";
+			}
+			else{
+				document.getElementById("bmi").innerHTML = "";
+			}
+}
+</script>
  {% block validation %}
-<script src="{% static 'validation.js' %}"></script>
+<script src="{% static 'js/validation.js' %}"></script>
 {% endblock validation %}
   </body>
 </html>

@@ -129,7 +129,7 @@ class LogoutView(View):
         logout(request)
         return redirect("accounts:index")
 
-def credit_amt(request,category,count):
+def credit_amt(category,count):
     price={'gold':22,'silver':17,'bronse':22}
     if category=='Gold':
         credit=count*price['gold']

@@ -94,7 +94,6 @@ li{
     padding-right: 0.5em;
     padding-left: 0.5em;
     font-weight: bold;
-    border-right: 1px solid #333333;
 }
 li a{
     text-decoration: none;
@@ -117,11 +116,19 @@ li a{
 {% endblock qr_head %}
 {% block section1 %}
 <body>
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }} text-warning" ><h3>{{ message }}</h3></li>
+    {% endfor %}
+  </ul>
+{% endif %}
 <div id="main">
 <div id="header">
-<div style="position:relative;top:+20px;left:0px;"><g:plusone size="medium"></g:plusone></div>
-<p id="mp1">
-QR Code scanner
+<!--<div style="position:relative;top:+20px;left:0px;"><g:plusone size="medium"></g:plusone></div>-->
+<br>
+  <p id="mp1">
+Scan QR Code
 </p>
 </div>
 <div id="mainbody">
