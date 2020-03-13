@@ -106,15 +106,10 @@ function read(a)
     var html="<br>";
     if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
         html+="<a target='_blank' href='"+a+"'>"+a+"</a><br>";
-<<<<<<< HEAD
-    html+="<b><input type='hidden' name='qr_result' value="+htmlEntities(a)+" id='qr_input'></label></b><br><br>";
-    document.getElementById("result").innerHTML=html;
-=======
     html+="<b>"+htmlEntities(a)+"</b><br><br>";
     html+="<b><h1><input type='hidden' name='qr_result' value="+htmlEntities(a)+" id='qr_input'></h1></b><br><br>";
     document.getElementById("result").innerHTML=html;
     $('#form').submit()
->>>>>>> b8b5f60c36aa491df6a0096532235897f258a289
     $("#form").trigger('submit');
 }
 

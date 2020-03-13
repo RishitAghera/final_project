@@ -1,6 +1,9 @@
 from datetime import date, timedelta, datetime
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
@@ -9,7 +12,7 @@ from .models import Membership, Entry
 from . import checksum
 from accounts.models import Gym
 
-MERCHANT_KEY='#bhpBMZ_@X9U4JKL'
+MERCHANT_KEY='lavcDLT%rE7AJRie'
 
 
 def subscription(request):
@@ -17,7 +20,7 @@ def subscription(request):
     return render(request,"membership/subscription.html")
 
 class MemebershipCreation(View):
-
+    @method_decorator(login_required, name='dispatch')
     def get(self,request):
         form = MembershipCreationForm()
         return render(request,'membership/membershipcreate.html',{'form':form})
@@ -56,7 +59,7 @@ class MemebershipCreation(View):
             print(str(price[data.get('category')][val]))
             # return redirect('gymcard:card',cat=data.get('category'))
             param_dict={
-                "MID": "EzRoDH80963909058504",
+                "MID": "DvQwxc10574555665868",
                 "ORDER_ID": str(new_membership.id),
                 "CUST_ID": str(self.request.user.email),
                 "TXN_AMOUNT": str(price[data.get('category')][val]),
@@ -92,7 +95,7 @@ def handlerequest(request):
 
 
 class Qrscanning(View):
-
+    @method_decorator(login_required, name='dispatch')
     def get(self,request):
         return render(request,'membership/qr_entry.html')
 

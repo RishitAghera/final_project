@@ -1,10 +1,8 @@
-from datetime import date, timedelta, datetime
+from datetime import datetime
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from accounts.models import Gym
-from django.views import View
 from django.views.generic import ListView,DetailView
-# Create your views here.
 from membership.models import Membership
 
 
@@ -18,10 +16,8 @@ class AllGym(ListView):
     template_name = 'gymcard/card.html'
     context_object_name = 'queryset'
 
-def MembershipDeatilCard(request):
-    if not Membership.objects.all():
-        return render(request,'gymcard/membership_detailcard.html')
-    
+def MembershipDetailCard(request):
+
     membership=Membership.objects.all().get(user=request.user)
     print(datetime.now())
     left = membership.end_date - datetime.now().date()

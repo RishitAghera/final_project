@@ -1,0 +1,28 @@
+{% extends 'accounts/index.html' %}
+{% block section1 %}
+
+<h1>Profile</h1>
+<hr>
+<table class="table table-hover" style="width:70%;">
+        <tr>
+            <td>Name</td>
+            <td style="font-weight:bold;">{{ object.name }}</td>
+        </tr>
+        <tr>
+            <td>UserID:</td>
+            <td style="font-weight:bold;">{{ object.username }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td style="font-weight:bold;">{{ object.email }}</td>
+        </tr>
+        <tr>
+            <td>Contact</td>
+            <td style="font-weight:bold;">{{ object.contact}}</td>
+        </tr>
+
+        </tr>
+
+</table>
+
+{% endblock section1 %}
