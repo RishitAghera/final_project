@@ -2,7 +2,7 @@
 {% block section1 %}
 <div class="container">
     <div class="col my-4">
-
+        {{ user.name }}
         <h2>Payment status regarding your Membership </h2>
         {% if response.RESPCODE == '01' %}
         <h2>PAYMENT SUCCESS</h2>

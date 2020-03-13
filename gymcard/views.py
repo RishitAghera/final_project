@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from accounts.models import Gym
 from django.views.generic import ListView,DetailView
 from membership.models import Membership
@@ -17,9 +17,7 @@ class AllGym(ListView):
     context_object_name = 'queryset'
 
 def MembershipDetailCard(request):
-    if not Membership.objects.all():
-        return render(request,'gymcard/membership_detailcard.html')
-    
+
     membership=Membership.objects.all().get(user=request.user)
     print(datetime.now())
     left = membership.end_date - datetime.now().date()

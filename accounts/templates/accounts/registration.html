@@ -1,4 +1,5 @@
 {% extends 'accounts/index.html' %}
+{% load static %}
 {% block account_form %}
 <div class="container" id="form_registration">
 	<table class="table tale-hover" style="width:30%;">
@@ -24,6 +25,11 @@
 				</td>
 			</tr>
 
-		</form>
-		</table>
+	</form>
+	</table>
+</div>
 {% endblock account_form %}
+
+{% block validation %}
+<script src="{% static 'validation.js' %}"></script>
+{% endblock validation %}

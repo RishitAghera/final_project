@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
@@ -48,9 +49,9 @@ class RegistrationView(View):
 class LoginView(View):
 
     def get(self, request):
-        lform = LoginForm()
+        form1 = LoginForm()
         messages.warning(request,'Please Login in order to continue!')
-        return render(request, 'accounts/login.html', {'form': lform})
+        return render(request, 'accounts/login.html', {'form': form1})
 
     def post(self, request):
         form1 = LoginForm(data=request.POST)
@@ -63,11 +64,12 @@ class LoginView(View):
                 print('isvalid')
                 return redirect('accounts:index')
             else:
-                lform = LoginForm(data=request.POST)
-                return render(request, 'accounts/login.html', {'form': lform})
+                form1 = LoginForm(data=request.POST)
+                messages.error(request, 'User Not Found please Enter Valid data' + str(form1.errors))
+                return render(request, 'accounts/login.html', {'form': form1})
         else:
-            lform = LoginForm()
-            return render(request, 'accounts/login.html', {'form': lform})
+            form1 = LoginForm()
+            return render(request, 'accounts/login.html', {'form': form1})
 
 class GymRegistration(View):
 
@@ -147,3 +149,26 @@ class EntryView(ListView):
         entry_lst=self.request.user.gym.entry_set.all().filter(date__gte=datetime.now() - timedelta(days=30))
         credit=credit_amt(self.request.user.gym.category,entry_lst.count())
         return {'entry_lst':entry_lst,'credit':credit}
+
+def search_city(request):
+    city=request.GET.get('search')
+
+    city=list(Gym.objects.values())
+    data=[i.city for i in Gym.objects.all()]
+
+    return JsonResponse(data,safe=False)
+
+def autocompleteModel(request):
+    if request.is_ajax():
+        q = request.GET.get('term')
+        search_qs = Gym.objects.filter(city__istartswith=q)
+        results = []
+        print('q:')
+        for r in search_qs:
+            results.append(r.city)
+        data = json.dumps(results)
+        print(data)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)

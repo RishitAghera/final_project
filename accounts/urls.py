@@ -12,7 +12,9 @@ urlpatterns = [
     path('gymregistration/',views.GymRegistration.as_view(),name='gym-reg'),
     path('profile/',views.profile,name='profile'),
     path('logout/',views.LogoutView.as_view(),name="logout"),
-    path('gym/entries/',views.EntryView.as_view(),name='entries')
+    path('gym/entries/',views.EntryView.as_view(),name='entries'),
+    path('ajax/search/',views.search_city,name="searchcity"),
+    path('ajax_calls/search/',views.autocompleteModel),
     # path('subscription-type',views.subscription,name='subscription')
 
 ]

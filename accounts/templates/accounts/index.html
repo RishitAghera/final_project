@@ -35,6 +35,14 @@
 	<link rel="stylesheet" href="{% static 'css/card.css' %}">
 <!--	<link rel="stylesheet" href="{% static 'css/card2.css' %}">-->
 
+	  <!--		AUTOCOMPLETE SEARCH-->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!--	  <script src="{% static 'js/autocomplete_cdn.js' %}"></script>-->
+<!--	  <script src="{% static 'js/autocomplete_cdn2.js' %}"></script>-->
+	  <script src="{% static 'js/autocomplete.js' %}"></script>
+
+
 	  {% block qr_head %}
 	  {% endblock qr_head %}
 	
@@ -60,12 +68,17 @@
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto" >
 	        	{% if user.is_authenticated %}
-				<li class="nav-item"><a href="{% url 'membership:qrscanning' %}" class="nav-link">Scan QR-CODE</a></li>
+					{% if user.membership.is_valid %}<li class="nav-item"><a href="{% url 'membership:qrscanning' %}" class="nav-link">Scan QR-CODE</a></li>
+						<li class="nav-item"><a href="{% url 'gymcard:mem-detail' %}" class="nav-link">Membership</a></li>
+					{% else %}
+						<li class="nav-item"><a href="{% url 'membership:mem-create' %}" class="nav-link">Get Membership</a></li>
+					{% endif %}
 				<li class="nav-item"><a href="{% url 'accounts:gym-reg' %}" class="nav-link">Gym-partner</a></li>
-				<li class="nav-item"><a href="{% url 'gymcard:mem-detail' %}" class="nav-link">Membership</a></li>
+
 				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
 				<li class="nav-item"><a href="{% url 'accounts:logout' %}" class="nav-link">Logout</a></li>
 				<li class="nav-item"><a href="{% url 'accounts:profile' %}" class="nav-link">Logged in as:{{user.username}}</a></li>
+				<li><form class="navbar-form navbar-left" action="POST" method="POST">{% csrf_token %}<input type="text" name="search" id="myInput" value="" style='width:40%'><button type="submit">search</button></form></li>
 
 				{% else %}
 
@@ -133,7 +146,7 @@
     				<div class="text pt-4 pt-md-0">
 		          <div class="heading-section mb-4">
 		          	<span class="subheading">Welcome</span>
-		            <h2 class="mb-1">Welcome to <span>Endurance</span> Crossfit Gym</h2>
+					  <h2 class="mb-1">Find your dream Gym <span>Everywhere</span> in India<img src="{% static 'images/location.png' %}" width="9%" style="padding-bottom:3%;"></h2>
 		          </div>
 		          <p style="color:black;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
 		          <p><a href="{% url 'accounts:register' %}" class="btn btn-primary p-3">Join us</a></p>
@@ -780,6 +793,15 @@
   <script src="{% static 'js/card2.js' %}"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='https://cdn.rawgit.com/thiagoh/de-animate/0.2.3/dist/jquery.de-animate.min.js'></script>
-<script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script><script  src="{% static 'js/script.js' %}"></script>
+<script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
+	<script  src="{% static 'js/script.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+ {% block validation %}
+<script src="{% static 'validation.js' %}"></script>
+{% endblock validation %}
   </body>
 </html>
