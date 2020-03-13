@@ -13,7 +13,6 @@ from django.views.generic import View
 from .models import Services, Gym, User
 import qrcode
 
-
 # Create your views here.
 from django.views import View
 
@@ -22,15 +21,16 @@ from membership.models import Entry
 
 
 def index(request):
-    queryset=Gym.objects.all()
-    return render(request,"accounts/index.html",{'queryset':queryset})
+    queryset = Gym.objects.all()
+    return render(request, "accounts/index.html", {'queryset': queryset})
 
 
 def card(request):
-    return render(request,"accounts/card.html")
+    return render(request, "accounts/card.html")
+
 
 class LogoutView(View):
-    def get(self,request):
+    def get(self, request):
         logout(request)
         return redirect('accounts:login')
 
@@ -46,11 +46,12 @@ class RegistrationView(View):
             rform.save()
         return redirect('accounts:index')
 
+
 class LoginView(View):
 
     def get(self, request):
         form1 = LoginForm()
-        messages.warning(request,'Please Login in order to continue!')
+        messages.warning(request, 'Please Login in order to continue!')
         return render(request, 'accounts/login.html', {'form': form1})
 
     def post(self, request):
@@ -71,6 +72,7 @@ class LoginView(View):
             form1 = LoginForm()
             return render(request, 'accounts/login.html', {'form': form1})
 
+
 class GymRegistration(View):
 
     @method_decorator(login_required, name='dispatch')
@@ -83,7 +85,7 @@ class GymRegistration(View):
 
     def post(self, request):
 
-        form = GymRegistrationForm(request.POST,request.FILES)
+        form = GymRegistrationForm(request.POST, request.FILES)
         data = request.POST.copy()
 
         if form.is_valid():
@@ -100,14 +102,14 @@ class GymRegistration(View):
             else:
                 new_gym.category = ''
 
-            qr=qrcode.make(new_gym.id)
-            qr.save('media/gym_qr/'+str(new_gym.id)+'.png')
+            qr = qrcode.make(new_gym.id)
+            qr.save('media/gym_qr/' + str(new_gym.id) + '.png')
             print(qr)
-            new_gym.qrcode='gym_qr/'+str(new_gym.id)+'.png'
-            new_gym.username=self.request.user
+            new_gym.qrcode = 'gym_qr/' + str(new_gym.id) + '.png'
+            new_gym.username = self.request.user
 
             new_gym.save()
-            print('GYM CREATED',new_gym.services.count())
+            print('GYM CREATED', new_gym.services.count())
 
 
 
@@ -118,7 +120,7 @@ class GymRegistration(View):
 
 def profile(request):
     try:
-        object=User.objects.all().get(id=request.user.pk)
+        object = User.objects.all().get(id=request.user.pk)
         return render(request, 'accounts/profile.html', {'object': object})
     except:
         return HttpResponse("404 Error")
@@ -129,34 +131,37 @@ class LogoutView(View):
         logout(request)
         return redirect("accounts:index")
 
-def credit_amt(category,count):
-    price={'gold':22,'silver':17,'bronse':22}
-    if category=='Gold':
-        credit=count*price['gold']
-    elif category=='silver':
-        credit=count*price['silver']
+
+def credit_amt(category, count):
+    price = {'gold': 22, 'silver': 17, 'bronse': 22}
+    if category == 'Gold':
+        credit = count * price['gold']
+    elif category == 'silver':
+        credit = count * price['silver']
     else:
-        credit=count*price['bronse']
+        credit = count * price['bronse']
     return credit
 
 
 @method_decorator(login_required, name='dispatch')
 class EntryView(ListView):
-    model=Entry
-    template_name='accounts/entrylist.html'
+    model = Entry
+    template_name = 'accounts/entrylist.html'
 
     def get_queryset(self):
-        entry_lst=self.request.user.gym.entry_set.all().filter(date__gte=datetime.now() - timedelta(days=30))
-        credit=credit_amt(self.request.user.gym.category,entry_lst.count())
-        return {'entry_lst':entry_lst,'credit':credit}
+        entry_lst = self.request.user.gym.entry_set.all().filter(date__gte=datetime.now() - timedelta(days=30))
+        credit = credit_amt(self.request.user.gym.category, entry_lst.count())
+        return {'entry_lst': entry_lst, 'credit': credit}
+
 
 def search_city(request):
-    city=request.GET.get('search')
+    city = request.GET.get('search')
 
-    city=list(Gym.objects.values())
-    data=[i.city for i in Gym.objects.all()]
+    city = list(Gym.objects.values())
+    data = [i.city for i in Gym.objects.all()]
 
-    return JsonResponse(data,safe=False)
+    return JsonResponse(data, safe=False)
+
 
 def autocompleteModel(request):
     if request.is_ajax():
