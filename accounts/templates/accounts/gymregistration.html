@@ -1,6 +1,15 @@
 {% extends 'accounts/index.html' %}
 {% block account_form %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  <script src="{% static 'js/autocomplete.js' %}"></script>
+
+
+
 <div class="container" id="form_registration">
+
+
 
 	{% if msg %}
 	<h1><i><b>{{msg}}</b></i></h1>

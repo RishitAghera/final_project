@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.urls import path
 from . import views
 from .views import LogoutView
@@ -12,8 +13,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('logout/', views.LogoutView.as_view(), name="logout"),
     path('gym/entries/', views.EntryView.as_view(), name='entries'),
-    path('ajax_calls/search/', views.autocompleteModel),
-
+    url(r'ajax_calls/search/$', views.autocompleteModel),
     # path('subscription-type',views.subscription,name='subscription')
 
 ]

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView
 from django.views.generic import View
@@ -89,33 +90,33 @@ class GymRegistration(View):
         data = request.POST.copy()
 
         if form.is_valid():
+            is_exists=Gym.objects.all().filter(user=request.user)
+            if not is_exists:
 
-            new_gym = form.save()
-            choices = Services.objects.filter(id__in=data.getlist('services'))
-            new_gym.services.set(choices)
-            if new_gym.services.count() == 1:
-                new_gym.category = 'Bronze'
-            elif new_gym.services.count() == 2:
-                new_gym.category = 'Silver'
-            elif new_gym.services.count() >= 3:
-                new_gym.category = 'Gold'
-            else:
-                new_gym.category = ''
+                new_gym = form.save()
+                new_gym.user = request.user
+                choices = Services.objects.filter(id__in=data.getlist('services'))
+                new_gym.services.set(choices)
+                if new_gym.services.count() == 1:
+                    new_gym.category = 'Bronze'
+                elif new_gym.services.count() == 2:
+                    new_gym.category = 'Silver'
+                elif new_gym.services.count() >= 3:
+                    new_gym.category = 'Gold'
+                else:
+                    new_gym.category = ''
 
-            qr = qrcode.make(new_gym.id)
-            qr.save('media/gym_qr/' + str(new_gym.id) + '.png')
-            print(qr)
-            new_gym.qrcode = 'gym_qr/' + str(new_gym.id) + '.png'
-            new_gym.username = self.request.user
+                qr = qrcode.make(new_gym.id)
+                qr.save('media/gym_qr/' + str(new_gym.id) + '.png')
+                print(qr)
+                new_gym.qrcode = 'gym_qr/' + str(new_gym.id) + '.png'
+                new_gym.username = self.request.user
 
-            new_gym.save()
-            print('GYM CREATED', new_gym.services.count())
+                new_gym.save()
 
+                print('GYM CREATED', new_gym.services.count())
 
-
-        else:
-            print(form.errors)
-        return redirect('accounts:index')
+        return redirect('accounts:gym-reg', {'msg': 'You are Already our Gym Partner'})
 
 
 def profile(request):

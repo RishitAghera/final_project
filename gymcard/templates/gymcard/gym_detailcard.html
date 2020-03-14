@@ -11,7 +11,7 @@
     
 <center>
 <div id="wrapper">
-    <h2 class="card-group-heading">You Details{{ gym}}</h2>
+    <h2 class="card-group-heading">{{ gym}}</h2>
     <div class="card-container">
     <article class="card assignment-card course-id-3">
         <header class="card-header card-backgrund-color">
@@ -29,9 +29,10 @@
             </div>
             <div class="card-info-element">
               <div class="card-info-description">QR</div>
-              <div class="card-info-value"><img src="{{gym.qrcode.url}}" width="80%"></div>
+                <div class="card-info-value"><u><a href="{{gym.qrcode.url}}">Click to open Code</a></u><img src="{{gym.qrcode.url}}" width="80%"></div>
             </div>
           </div>
+
           {%if gym.services %}
             <p class="card-tags">
               {% for ser in gym.services.values %}

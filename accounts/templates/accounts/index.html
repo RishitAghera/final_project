@@ -36,8 +36,6 @@
 	  <!--		AUTOCOMPLETE SEARCH-->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<!--	  <script src="{% static 'js/autocomplete_cdn.js' %}"></script>-->
-<!--	  <script src="{% static 'js/autocomplete_cdn2.js' %}"></script>-->
 	  <script src="{% static 'js/autocomplete.js' %}"></script>
 
 	  <script type="text/javascript">
@@ -80,12 +78,12 @@ $(document).ready(function () {
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto" >
 	        	{% if user.is_authenticated %}
-					{% if user.membership.is_valid %}<li class="nav-item"><a href="{% url 'membership:qrscanning' %}" class="nav-link">Scan QR-CODE</a></li>
+					{% if user.membership.is_valid %}<li class="nav-item"><a href="{% url 'membership:qrscanning' %}" class="nav-link">Scan QR CODE</a></li>
 						<li class="nav-item"><a href="{% url 'gymcard:mem-detail' %}" class="nav-link">Membership</a></li>
 					{% else %}
 						<li class="nav-item"><a href="{% url 'membership:mem-create' %}" class="nav-link">Get Membership</a></li>
 					{% endif %}
-				<li class="nav-item"><a href="{% url 'accounts:gym-reg' %}" class="nav-link">Gym-partner</a></li>
+				<li class="nav-item"><a href="{% url 'accounts:gym-reg' %}" class="nav-link">Gym partner</a></li>
 
 				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
 				<li class="nav-item"><a href="{% url 'accounts:logout' %}" class="nav-link">Logout</a></li>
@@ -142,6 +140,16 @@ $(document).ready(function () {
     {% endfor %}
   </ul>
 {% endif %}
+
+	{% if messages %}
+	<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
 <div id="section1">
 	{% block section1 %}
 
@@ -739,7 +747,6 @@ $(document).ready(function () {
   <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
   <script src="{% static 'js/aos.js' %}"></script>
   <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
   <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
   <script src="{% static 'js/scrollax.min.js' %}"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
