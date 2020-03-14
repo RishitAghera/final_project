@@ -78,24 +78,24 @@ $(document).ready(function () {
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto" >
 	        	{% if user.is_authenticated %}
-					{% if user.membership.is_valid %}<li class="nav-item"><a href="{% url 'membership:qrscanning' %}" class="nav-link">Scan QR CODE</a></li>
-						<li class="nav-item"><a href="{% url 'gymcard:mem-detail' %}" class="nav-link">Membership</a></li>
+					{% if user.membership.is_valid %}<li class="nav-item {% if request.resolver_match.url_name == 'qrscanning' %}active{%endif%}"><a href="{% url 'membership:qrscanning' %}" class="nav-link">Scan QR CODE</a></li>
+						<li class="nav-item {% if request.resolver_match.url_name == 'mem-detail' %}active{%endif%}"><a href="{% url 'gymcard:mem-detail' %}" class="nav-link">Membership</a></li>
 					{% else %}
-						<li class="nav-item"><a href="{% url 'membership:mem-create' %}" class="nav-link">Get Membership</a></li>
+						<li class="nav-item {% if request.resolver_match.url_name == 'mem-create' %}active{%endif%}"><a href="{% url 'membership:mem-create' %}" class="nav-link">Get Membership</a></li>
 					{% endif %}
-				<li class="nav-item"><a href="{% url 'accounts:gym-reg' %}" class="nav-link">Gym partner</a></li>
+				<li class="nav-item {% if request.resolver_match.url_name == 'gym-reg' %}active{%endif%}"><a href="{% url 'accounts:gym-reg' %}" class="nav-link">Gym partner</a></li>
 
-				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-				<li class="nav-item"><a href="{% url 'accounts:logout' %}" class="nav-link">Logout</a></li>
-				<li class="nav-item"><a href="{% url 'accounts:profile' %}" class="nav-link">Logged in as:{{user.username}}</a></li>
+				<li class="nav-item {% if request.resolver_match.route == 'gymregistration/#about' %}active{%endif%}"><a href="#about" class="nav-link">About</a></li>
+				<li class="nav-item {% if request.resolver_match.url_name == 'logout' %}active{%endif%}"><a href="{% url 'accounts:logout' %}" class="nav-link">Logout</a></li>
+				<li class="nav-item {% if request.resolver_match.url_name == 'profile' %}active{%endif%}"><a href="{% url 'accounts:profile' %}" class="nav-link">Logged in as:{{user.username}}</a></li>
 				<li><form class="navbar-form navbar-left" method="POST" action="{% url 'gymcard:citywisegym' %}">{% csrf_token %}<input type="text" name="searchcity" id="myInput" value="" style='width:40%'>
 					<button type="submit">search</button></form></li>
 
 				{% else %}
 
-				<li class="nav-item active"><a href="{% url 'accounts:index' %}" class="nav-link">Home</a></li>
+				<li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{%endif%}"><a href="{% url 'accounts:index' %}" class="nav-link">Home</a></li>
 				<li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-	        	<li class="nav-item"><a href="{% url 'accounts:login' %}" class="nav-link">Login</a></li>
+	        	<li class="nav-item {% if request.resolver_match.url_name == 'login' %}active{%endif%}"><a href="{% url 'accounts:login' %}" class="nav-link">Login</a></li>
 				{% endif %}
 			</ul>
 	      </div>
