@@ -38,7 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'gymcard',
+    'membership',
+
+    'bootstrap_datepicker_plus',
 ]
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,3 +137,6 @@ MEDIA_URL = '/media/'
 #     os.path.join(BASE_DIR,'media')
 # ]
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+
+LOGIN_URL='accounts:login'

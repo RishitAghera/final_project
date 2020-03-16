@@ -1,0 +1,35 @@
+{% extends 'accounts/index.html' %}
+{% load static %}
+{% block section1 %}
+
+
+<div style="height:50">
+{% for gym in queryset %}
+
+<a class="card" href="#!">
+
+    <div class="front" style="background-image: url({{ gym.image.url }});">
+      <p class="text">{{ gym.name }}
+      {{ gym.city }}
+      {{ gym.opentime }} To {{ gym.closetime }}</p>
+    </div>
+    <div class="back">
+      <div>
+      Address:  <p>{{ gym.address }}</p>
+      Services:  
+      <p>
+            
+            {% for ser in gym.services.values %}
+                    
+                {{ ser.service }}
+                    
+                {% endfor %}
+        </p>
+        <button class="button">Click Here</button>
+      </div>
+    </div>
+</a>
+
+{% endfor %}
+</div>
+{% endblock section1 %}

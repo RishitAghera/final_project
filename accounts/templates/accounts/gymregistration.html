@@ -1,6 +1,21 @@
 {% extends 'accounts/index.html' %}
 {% block account_form %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  <script src="{% static 'js/autocomplete.js' %}"></script>
+
+
+
 <div class="container" id="form_registration">
+
+
+
+	{% if msg %}
+	<h1><i><b>{{msg}}</b></i></h1>
+	<a href="{% url 'gymcard:gym-detail' %}" class="btn btn-primary p-3" border="10px">See Gym</a>
+	<a href="{% url 'accounts:entries' %}" id="id_btn" class="btn btn-primary p-3" border="10px">Check Entry</a>
+	{% else %}
 	<h1><i><b>Register Your Gym Here</b></i></h1>
 	<table class="table tale-hover" style="width:30%;">
     <form method="POST" id="registration" enctype="multipart/form-data">
@@ -27,10 +42,16 @@
 
 		</form>
 		</table>
-
+{% endif %}
 <!--    <script>-->
 <!--        $('#id_opentime').timepicker();-->
 <!--        $('#id_closetime').timepicker();-->
 <!--    </script>-->
 
 {% endblock account_form %}
+
+	{% block validation %}
+	{% endblock validation %}
+
+{% block membership %}
+{% endblock membership%}

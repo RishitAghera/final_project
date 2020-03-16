@@ -1,0 +1,52 @@
+{% extends 'accounts/index.html' %}
+{% load static %}
+{% block qr_head %}
+<link rel="stylesheet" href="{% static 'css/membership_card.css' %}">
+{% endblock qr_head %}
+{% block section1 %}
+
+
+{% if not membership %}
+  
+<h1>You haven't purchase any membership yet..<a href="#membership">Click Here for purchase membership</a></h1>
+
+{% else %}   
+
+<center>
+<h3>You Have {{day}} Days remaining..</h3>
+<div id="wrapper">
+    <h2 class="card-group-heading">Your Details</h2>
+    <div class="card-container">
+    <article class="card assignment-card course-id-3">
+        <header class="card-header card-backgrund-color">
+          <h2 style="color: black; font-weight: bold;">GYM-FREAK</h2>
+        </header>
+        <section class="card-body">
+          <div class="card-info">
+            <div class="card-info-element">
+              <div class="card-info-description">Name</div>
+              <div class="card-info-value">{{ membership.user.name }}</div>
+            </div>
+            <div class="card-info-element">
+              <div class="card-info-description">Validity</div>
+              <div class="card-info-value" style="font-size: x-small;">{{ membership.start_date }}-{{membership.end_date}}</div>
+            </div>
+            <div class="card-info-element">
+              <div class="card-info-description">Auto Renew</div>
+                <div class="card-info-value" style="font-size: x-medium;">{% if membership.auto_renew %} Yes {% else %} No {% endif %}</div>
+
+            </div>
+          </div>
+          </section>
+        <footer class="card-footer" style="margin-top:30%;">
+          <p><span class="ml-checkmark card-footer-icon card-backgrund-color"></span> <span class="card-footer-text">{{ membership.category }}</span>
+          </p>
+        </footer>
+      </article>
+
+    </div>
+
+  </div>
+</center>
+{% endif %}
+{% endblock section1 %}

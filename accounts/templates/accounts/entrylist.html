@@ -1,0 +1,33 @@
+{% extends 'accounts/index.html' %}
+{% block section1 %}
+<center>
+    <h1><b><i>Entry List for Gym <span style="color:#FCD307;">{{ user.gym.name }}</span></i></b></h1>
+    <p class="text text-warning" align="right"><b>*credited amount will be paid at the end of the month</b></p>
+<hr>
+
+{% if object_list.entry_lst %}
+<table style="width:80%;" border="0px">
+    <tr><td colspan="5"></td><td colspan="1" style="font-weight:bold;" align="right">Your credit amount: {{object_list.credit}} &#8377</td></tr>
+    <tr style="font-weight:bold;" align="center"><td>Sr.</td><td>Customer</td><td>Customer ID</td><td>Email</td><td>Contact</td><td>Date</td></tr>
+
+    {% for object in object_list.entry_lst %}
+        <tr><td align="center">{{ forloop.counter }}.</td>
+
+                <td align="center">{{ object.user.name }}</td>
+
+                <td align="center">{{ object.user.username }}</td>
+
+                <td align="center">{{ object.user.email }}</td>
+
+                <td align="center">{{ object.user.contact}}</td>
+
+            <td align="center">{{ object.date }}</td>
+        </tr>
+        <tr>
+{% endfor %}
+</table>
+{% else %}
+<h2>No data found</h2>
+{% endif %}
+</center>
+{% endblock section1 %}
