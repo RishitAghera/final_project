@@ -1,4 +1,3 @@
 __pycache__/
 media/
 membership/__pycache__/
-db.sqlite3
