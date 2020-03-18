@@ -13,11 +13,11 @@
 <div id="wrapper">
     <h2 class="card-group-heading">{{ gym}}</h2>
     <div class="card-container">
-    <article class="card assignment-card course-id-3">
+    <article class="card assignment-card course-id-3" style="height:400%;">
         <header class="card-header card-backgrund-color">
           <h2 style="color: black; font-weight: bold;">GYM-FREAK</h2>
         </header>
-        <section class="card-body">
+        <section class="card-body" style="height:40%;">
           <div class="card-info">
             <div class="card-info-element">
               <div class="card-info-description">Name</div>
@@ -25,27 +25,31 @@
             </div>
             <div class="card-info-element">
               <div class="card-info-description">Address</div>
-              <div class="card-info-value" style="font-size: x-small;">{{ gym.address }}</div>
+              <div class="card-info-value" style="font-size: x-small;">{{ gym.address }} {%if gym.services %}
+            <p class="card-tags">
+              {% for ser in gym.services.values %}
+            <div class="card-info-description">{{ser.service}}</div>
+          </p>
+            {% endfor %}
+            {% endif %}</div>
             </div>
             <div class="card-info-element">
               <div class="card-info-description">QR</div>
-                <div class="card-info-value"><u><a href="{{gym.qrcode.url}}">Click to open Code</a></u><img src="{{gym.qrcode.url}}" width="80%"></div>
+                <div class="card-info-value"><u><a href="{{gym.qrcode.url}}">Click to open Code</a></u></div>
             </div>
           </div>
 
-          {%if gym.services %}
-            <p class="card-tags">
-              {% for ser in gym.services.values %}
-            <span class="card-tag card-backgrund-color">{{ser.service}}</span>
-          </p>
-            {% endfor %}
-            {% endif %}
-        </section>
-        <footer class="card-footer">
-          <p><span class="ml-checkmark card-footer-icon card-backgrund-color"></span> <span class="card-footer-text">{{ gym.category }}</span>
-          </p>
-        </footer>
-      </article>
+
+
+            </section>
+    </article>
+
+
+<!--        <footer class="card-footer">-->
+<!--          <p><span class="ml-checkmark card-footer-icon card-backgrund-color"></span> <span class="card-footer-text">{{ gym.category }}</span>-->
+<!--          </p>-->
+<!--        </footer>-->
+
 
     </div>
   

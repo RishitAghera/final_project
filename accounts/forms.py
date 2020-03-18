@@ -28,7 +28,6 @@ class LoginForm(forms.Form):
 
 
 class GymRegistrationForm(forms.ModelForm):
-
     class Meta:
         model = Gym
         fields = ['name', 'opentime', 'closetime', 'address', 'city', 'image', 'services']
@@ -37,6 +36,7 @@ class GymRegistrationForm(forms.ModelForm):
         super(GymRegistrationForm, self).__init__(*args, **kwargs)
         self.fields['opentime'].widget = TimeInput()
         self.fields['closetime'].widget = TimeInput()
+
 
 class TimeInput(forms.TimeInput):
     input_type = "time"

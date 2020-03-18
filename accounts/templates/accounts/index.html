@@ -538,8 +538,7 @@ $(document).ready(function () {
 					</div>
 					<div class="d-md-flex">
 						<div class="form-group d-flex">
-							<input type="submit" value="Calculate BMI" class="btn btn-secondary p-3 px-2"
-								onclick="calculateBMI();">
+							<input type="submit" value="Calculate BMI" class="btn btn-secondary p-3 px-2" onclick="calculateBMI()">
 
 						</div>
 
@@ -761,13 +760,14 @@ $(document).ready(function () {
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!--	BMI-->
-<script type="text/javascript">
-	function calculateBMI() {
+<!--<script src="{% static 'js/bmi.js' %}"></script>-->
+<script>
+function calculateBMI() {
 			var feet = Number(document.getElementById("feet").value);
 			var inch = Number(document.getElementById("inch").value);
 			var weight = Number(document.getElementById("weight").value);
-			var heights = ((feet  12 + inch)  2.54) / 100;
-			var calculate = (weight / (heights * heights));
+			var height = ((feet * 12 + inch) * 2.54) / 100;
+			var calculate = (weight / (height * height));
 			document.getElementById("calculate").innerText = calculate;
 			if (calculate < 18.5) {
 				document.getElementById("bmi").innerText = "Underweight";
@@ -786,6 +786,8 @@ $(document).ready(function () {
 			}
 }
 </script>
+
+
  {% block validation %}
 <script src="{% static 'js/validation.js' %}"></script>
 {% endblock validation %}

@@ -2,7 +2,7 @@ from datetime import date, timedelta, datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -107,16 +107,25 @@ class Qrscanning(View):
     def post(self, request):
         print(request.POST.get('qr_result'))
         print(request.user)
-        is_valid = Entry.objects.filter(user=request.user, date=datetime.now())
-        if not is_valid:
-            end = Membership.objects.get(user=request.user).end_date
-            print(end)
-            remaining = (end - datetime.now().date()).days
-            print(remaining)
-            gym_ins = Gym.objects.get(id=int(request.POST.get('qr_result')))
-            new_entry = Entry.objects.create(user=request.user, gym=gym_ins, date=datetime.now())
-            entry_msg = 'Entry Added..' + str(remaining) + ' more days to go..'
-            messages.info(request, 'You are Booked Gym for today..')
-            return redirect('accounts:index')
-        messages.warning(request, 'You have already visited gym today..')
-        return render(request, 'membership/qr_entry.html')
+        qr_result=request.POST.get('qr_result')
+        if (qr_result.isnumeric()) and Gym.objects.all().filter(id=int(request.POST.get('qr_result'))):
+            is_valid = Entry.objects.filter(user=request.user, date=datetime.now())
+            if not is_valid:
+                print('valid')
+                end = Membership.objects.get(user=request.user).end_date
+                print(end)
+                remaining = (end - datetime.now().date()).days
+                print(remaining)
+                gym_ins = Gym.objects.get(id=qr_result)
+                new_entry = Entry.objects.create(user=request.user, gym=gym_ins, date=datetime.now())
+                entry_msg = 'Entry Added..' + str(remaining) + ' more days to go..'
+                messages.info(request, 'You are Booked Gym for today..')
+                return redirect('accounts:index')
+            else:
+                print('not valid')
+                messages.warning(request, 'You have already visited gym today..')
+                return render(request, 'membership/qr_entry.html')
+        else:
+            messages.error(request, 'QR code not valid')
+            return render(request, 'membership/qr_entry.html')
+

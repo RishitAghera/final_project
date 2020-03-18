@@ -45,8 +45,10 @@ class RegistrationView(View):
         rform = RegistrationForm(request.POST)
         if rform.is_valid():
             rform.save()
-        return redirect('accounts:index')
-
+            messages.success(request,'Registered successfully..')
+            return redirect('accounts:login')
+        messages.error(request,'sign up with new user..')
+        return render(request, 'accounts/registration.html', {'form': rform})
 
 class LoginView(View):
 

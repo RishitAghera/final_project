@@ -2,7 +2,7 @@ function calculateBMI() {
 			var feet = Number(document.getElementById("feet").value);
 			var inch = Number(document.getElementById("inch").value);
 			var weight = Number(document.getElementById("weight").value);
-			var height = ((feet  12 + inch)  2.54) / 100;
+			var height = ((feet * 12 + inch)*  2.54) / 100;
 			var calculate = (weight / (height * height));
 			document.getElementById("calculate").innerText = calculate;
 			if (calculate < 18.5) {
