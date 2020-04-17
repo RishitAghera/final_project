@@ -8,4 +8,14 @@ $(document).ready(function(){
             }, 0);
         }
       });
+
+      $("#id_city").autocomplete({
+        source: "ajax_calls/search/",
+        minLength: 2,
+        open: function(){
+            setTimeout(function () {
+                $('.ui-autocomplete').css('z-index', 99);
+            }, 0);
+        }
+      });
 });

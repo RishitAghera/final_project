@@ -39,8 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'gymcard',
-    'membership',
+    'membership',   
 ]
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

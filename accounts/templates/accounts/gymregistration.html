@@ -1,6 +1,15 @@
 {% extends 'accounts/index.html' %}
 {% block account_form %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  <script src="{% static 'js/autocomplete.js' %}"></script>
+
+
+
 <div class="container" id="form_registration">
+
+
 
 	{% if msg %}
 	<h1><i><b>{{msg}}</b></i></h1>
@@ -27,7 +36,7 @@
 			{% endfor%}
 			<tr><td></td>
 				<td rowspan="3">
-					<button type="submit" id="id_button" class="btn btn-primary p-3" border="10px">Register</button>
+					<button style="color: black;" type="submit" id="id_button" class="btn btn-primary px-5 p-3" border="10px">Register</button>
 				</td>
 			</tr>
 
@@ -42,9 +51,8 @@
 
 {% endblock account_form %}
 
-{% block validation %}
-	
-{% endblock validation %}
-	
+	{% block validation %}
+	{% endblock validation %}
+
 {% block membership %}
 {% endblock membership%}
